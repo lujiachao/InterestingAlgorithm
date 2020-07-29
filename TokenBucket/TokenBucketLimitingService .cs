@@ -47,6 +47,7 @@ namespace TokenBucket
                 this.maxTPS = 1;
 
             limitedQueue = new LimitedQueue<object>(limitSize);
+
             for (int i = 0; i < limitSize; i++)
             {
                 limitedQueue.Enqueue(new object());
@@ -64,6 +65,7 @@ namespace TokenBucket
             int sleepTime = BuildSleepTime();
             while (cancelToken.Token.IsCancellationRequested == false)
             {
+                Thread.Sleep(sleepTime);
                 lock (lckObj)
                 {
                     int countAdd = this.limitSize - limitedQueue.Count;
@@ -72,7 +74,6 @@ namespace TokenBucket
                         limitedQueue.Enqueue(new object());
                     }
                 }
-                Thread.Sleep(sleepTime);
             }
         }
 

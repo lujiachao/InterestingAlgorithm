@@ -8,7 +8,7 @@ namespace TokenBucket
     {
         static void Main(string[] args)
         {
-            var service = LimitingFactory.Build(LimitingType.TokenBucketByRate, 50, 500, "500/s");
+            var service = LimitingFactory.Build(LimitingType.TokenBucketByRate, 50, 10, "10/s");
             int a = 0;
             int b = 0;
             for (var i = 0; i < 100; i++)
@@ -22,7 +22,7 @@ namespace TokenBucket
                 {
                     b++;
                 }
-                Thread.Sleep(1);
+                Thread.Sleep(90);
             }
             Console.WriteLine(a);
             Console.WriteLine(b);
