@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29519.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenBucket", "TokenBucket\TokenBucket.csproj", "{B8BADDE2-BB7C-49DA-A7E3-FBF73A5EDD21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TokenBucket", "TokenBucket\TokenBucket.csproj", "{B8BADDE2-BB7C-49DA-A7E3-FBF73A5EDD21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokenBucket.Benchmark", "TokenBucket.Benchmark\TokenBucket.Benchmark.csproj", "{FA0291C1-8BCF-48BF-B094-458B353C8B57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{B8BADDE2-BB7C-49DA-A7E3-FBF73A5EDD21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8BADDE2-BB7C-49DA-A7E3-FBF73A5EDD21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8BADDE2-BB7C-49DA-A7E3-FBF73A5EDD21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA0291C1-8BCF-48BF-B094-458B353C8B57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA0291C1-8BCF-48BF-B094-458B353C8B57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA0291C1-8BCF-48BF-B094-458B353C8B57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA0291C1-8BCF-48BF-B094-458B353C8B57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

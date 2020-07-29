@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace TokenBucket
         private Task task = null;
         private int maxTPS;
         private int limitSize;
+        private string unit;
         private object lckObj = new object();
         public TokenBucketLimitingService(int maxTPS, int limitSize)
         {
@@ -31,6 +33,47 @@ namespace TokenBucket
             }
             cancelToken = new CancellationTokenSource();
             task = Task.Factory.StartNew(new Action(TokenProcess), cancelToken.Token);
+        }
+
+        public TokenBucketLimitingService(string rate, int limitSize)
+        {
+            var rateSplits = rate.Split('/');
+            this.limitSize = limitSize;
+            this.maxTPS = Convert.ToInt32(rateSplits[0]);
+            unit = rateSplits[1];
+            if (this.limitSize <= 0)
+                this.limitSize = 100;
+            if (this.maxTPS <= 0)
+                this.maxTPS = 1;
+
+            limitedQueue = new LimitedQueue<object>(limitSize);
+            for (int i = 0; i < limitSize; i++)
+            {
+                limitedQueue.Enqueue(new object());
+            }
+
+            cancelToken = new CancellationTokenSource();
+            task = Task.Factory.StartNew(new Action(TokenProcessByRate), cancelToken.Token);
+        }
+
+        /// <summary>
+        /// 定时消息令牌
+        /// </summary>
+        private void TokenProcessByRate()
+        {
+            int sleepTime = BuildSleepTime();
+            while (cancelToken.Token.IsCancellationRequested == false)
+            {
+                lock (lckObj)
+                {
+                    int countAdd = this.limitSize - limitedQueue.Count;
+                    for (int i = 0; i < countAdd; i++)
+                    {
+                        limitedQueue.Enqueue(new object());
+                    }
+                }
+                Thread.Sleep(sleepTime);
+            }
         }
 
         /// <summary>
@@ -93,6 +136,22 @@ namespace TokenBucket
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// 计算休眠时间
+        /// </summary>
+
+        public int BuildSleepTime()
+        {
+            switch (unit)
+            {
+                case "d": return 1000 * 60 * 60 * 24;
+                case "h": return 1000 * 60 * 60;
+                case "m": return 1000 * 60;
+                case "s": return 1000;
+                default: throw new FormatException($" can't be converted to TimeSpan, unknown type ");
+            }
         }
     }
 }
