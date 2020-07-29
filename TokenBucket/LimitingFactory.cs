@@ -12,7 +12,7 @@ namespace TokenBucket
         /// <param name="limitingType">限流模型</param>
         /// <param name="maxQPS">最大QPS</param>
         /// <param name="limitSize">最大可用票据数</param>
-        public static ILimitingService Build(LimitingType limitingType = LimitingType.TokenBucket, int maxQPS = 100, int limitSize = 100, string rate = "100/s")
+        public static ILimitingService Build(string key, LimitingType limitingType = LimitingType.TokenBucket, int maxQPS = 100, int limitSize = 100, string rate = "100/s")
         {
             switch (limitingType)
             {
@@ -20,6 +20,8 @@ namespace TokenBucket
                     return new TokenBucketLimitingService(maxQPS, limitSize);
                 case LimitingType.TokenBucketByRate:
                     return new TokenBucketLimitingService(rate, limitSize);
+                case LimitingType.TokenBucketByRateInDic:
+                    return new TokenBucketLimitingService(key, rate, limitSize);
                 case LimitingType.LeakageBucket:
                     return new LeakageBucketLimitingService(maxQPS, limitSize);
                 default:

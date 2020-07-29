@@ -12,5 +12,7 @@ namespace TokenBucket
         /// <returns>true：获取成功，false：获取失败</returns>
         bool Request();
 
+        bool Request(string key);
+
     }
 }

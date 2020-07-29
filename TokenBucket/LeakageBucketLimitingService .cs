@@ -83,5 +83,10 @@ namespace TokenBucket
                 return limitedQueue.Enqueue(new object());
             }
         }
+
+        public bool Request(string key)
+        {
+            return false;
+        }
     }
 }
